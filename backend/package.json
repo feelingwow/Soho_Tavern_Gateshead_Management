@@ -1,7 +1,7 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "description": "Backend for Soho Tavern Gateshead Management Web App",
+  "description": "",
   "main": "server.js",
   "type": "module",
   "scripts": {
@@ -9,7 +9,7 @@
     "dev": "nodemon server.js"
   },
   "keywords": [],
-  "author": "Bhawana Gupta",
+  "author": "",
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
