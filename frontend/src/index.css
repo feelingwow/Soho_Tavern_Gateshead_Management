@@ -44,6 +44,10 @@ body {
     @apply bg-white/80 backdrop-blur-sm rounded-2xl shadow-md border border-burgundy/10 transition-all duration-300 hover:shadow-xl hover:-translate-y-1;
   }
 
+  .white-card {
+    @apply bg-white/85 backdrop-blur-sm rounded-2xl shadow-md border border-burgundy/10 transition-all duration-300 hover:shadow-xl hover:-translate-y-1;
+  }
+
   .btn-primary {
     @apply bg-burgundy text-cream px-4 py-2 rounded-md font-semibold transition-transform hover:scale-105;
   }
