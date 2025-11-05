@@ -42,7 +42,7 @@ export default function Checklist() {
             placeholder="Enter task"
             className="flex-1 border rounded-md px-3 py-2"
           />
-          <button className="btn-primary">Add</button>
+          <button className="btn-glow">Add</button>
         </form>
 
         {items.length === 0 ? (
