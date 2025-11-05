@@ -1,1 +1,20 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  background-color: #FDF6EC;
+  color: #2E2E2E;
+}
+
+.card {
+  @apply bg-white/80 backdrop-blur-sm rounded-2xl shadow-md border border-burgundy/10 transition-all duration-300 hover:shadow-xl hover:-translate-y-1;
+}
+
+.btn-primary {
+  @apply bg-burgundy text-cream px-4 py-2 rounded-md font-semibold transition-transform hover:scale-105;
+}
+
+.btn-outline {
+  @apply border border-burgundy text-burgundy px-4 py-2 rounded-md font-semibold transition hover:bg-burgundy hover:text-cream;
+}

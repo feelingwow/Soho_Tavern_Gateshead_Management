@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <circle cx="100" cy="100" r="95" fill="#581C24" stroke="#D4AF37" stroke-width="4"/>
+  <text x="50%" y="55%" text-anchor="middle" font-size="70" font-family="Playfair Display, serif" fill="#FDF6EC">ST</text>
+  <text x="50%" y="85%" text-anchor="middle" font-size="16" font-family="Inter, sans-serif" fill="#D4AF37">Soho Tavern</text>
+</svg>
