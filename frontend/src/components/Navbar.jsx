@@ -70,14 +70,7 @@ export default function Navbar() {
               </button>
             </>
           ) : (
-            <>
-              <Link to="/login" className="hover:text-burgundy transition">
-                Login
-              </Link>
-              <Link to="/register" className="hover:text-burgundy transition">
-                Register
-              </Link>
-            </>
+            <></>
           )}
         </div>
       </div>
