@@ -13,7 +13,11 @@ const app = express();
 connectDB();
 
 // Middleware
-app.use(cors({ origin: "http://localhost:5173", credentials: true }));
+app.use(
+  cors({
+    origin: "*",
+  })
+);
 app.use(express.json());
 
 // Routes
@@ -26,5 +30,7 @@ app.get("/", (req, res) => res.send("✅ Soho Tavern API Running..."));
 // Error handler (must be at the end)
 app.use(errorHandler);
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, "0.0.0.0", () =>
+  console.log(`🚀 Server running on port ${PORT}`)
+);

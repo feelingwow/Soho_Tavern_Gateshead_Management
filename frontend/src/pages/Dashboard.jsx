@@ -1,5 +1,5 @@
 import React from "react";
-import bg from "../assets/restaurant-bg.jpg"; // Add your restaurant background image
+import bg from "../assets/restaurant-interior.jpg"; // Add your restaurant background image
 
 export default function Dashboard() {
   const user = JSON.parse(localStorage.getItem("user"));
@@ -10,7 +10,9 @@ export default function Dashboard() {
       style={{ backgroundImage: `url(${bg})` }}
     >
       <div className="bg-black/60 backdrop-blur-md p-12 rounded-2xl text-center shadow-2xl">
-        <h1 className="text-5xl font-serif mb-4">Welcome, {user?.name || "Guest"}!</h1>
+        <h1 className="text-5xl font-serif mb-4">
+          Welcome, {user?.name || "Guest"}!
+        </h1>
         <p className="text-lg italic text-gray-200">
           “Your daily restaurant management dashboard at Soho Tavern Gateshead.”
         </p>

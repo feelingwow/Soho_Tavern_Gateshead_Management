@@ -11,7 +11,7 @@ export default function App() {
   return (
     <div className="min-h-screen bg-[#fdfaf6] text-gray-800">
       <Navbar />
-      <div className="pt-20">
+      <div className="h-full">
         <Routes>
           <Route path="/" element={<Navigate to="/login" replace />} />
           <Route path="/login" element={<Login />} />
@@ -39,4 +39,3 @@ export default function App() {
     </div>
   );
 }
-
