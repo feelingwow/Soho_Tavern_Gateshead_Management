@@ -24,6 +24,16 @@ const cookingSchema = new mongoose.Schema({
   endTemperature: Number,
 });
 
+const dishwasherCheckSchema = new mongoose.Schema({
+  period: { type: String, enum: ["AM", "PM"], required: true }, // AM or PM
+  time: String,
+  temp: String,
+  cleansingOk: { type: Boolean, default: false },
+  chemicalSufficient: { type: Boolean, default: false },
+  closingCheck: { type: Boolean, default: false },
+  initial: String,
+});
+
 const openingCheckSchema = new mongoose.Schema({
   label: String,
   yes: { type: Boolean, default: false },
@@ -38,6 +48,7 @@ const checklistSchema = new mongoose.Schema(
   {
     name: String,
     date: { type: String, required: true }, // YYYY-MM-DD string (manual)
+    dishwasherChecks: [dishwasherCheckSchema], // NEW: AM/PM dishwasher checks
     openingChecks: [openingCheckSchema],
     fridgeTemps: [tempSchema], // rows for AM/PM with reading arrays
     deliveryDetails: [deliverySchema],

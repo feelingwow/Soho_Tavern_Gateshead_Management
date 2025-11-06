@@ -1,31 +1,92 @@
 import React, { useState, useEffect } from "react";
 import { Save, Plus, Trash2, Calendar } from "lucide-react";
 import API from "../utils/api";
-import bg from "../assets/restaurant-interior.jpg"; // Add your restaurant background image
+import bg from "../assets/restaurant-interior.jpg";
 
 export default function Checklist() {
   const [checklist, setChecklist] = useState({
     name: "",
     date: new Date().toISOString().split("T")[0],
+    dishwasherChecks: [
+      {
+        period: "AM",
+        time: "",
+        temp: "",
+        cleansingOk: false,
+        chemicalSufficient: false,
+        closingCheck: false,
+        initial: "",
+      },
+      {
+        period: "PM",
+        time: "",
+        temp: "",
+        cleansingOk: false,
+        chemicalSufficient: false,
+        closingCheck: false,
+        initial: "",
+      },
+    ],
     openingChecks: [
-      { label: "All equipment cleaned and sanitized", yes: false },
-      { label: "Temperature logs checked", yes: false },
-      { label: "Stock rotation completed", yes: false },
-      { label: "Kitchen floors cleaned", yes: false },
+      { label: "your fridges and freezers are working properly.", yes: false },
+      {
+        label: "your combi oven microwave oven is working properly.",
+        yes: false,
+      },
+      {
+        label:
+          "food preparation area are clean and disinfected(work surface, equipment, utensils etc.",
+        yes: false,
+      },
+      {
+        label: "all area are free from evidence of pest activity.",
+        yes: false,
+      },
+      {
+        label:
+          "there are plenty of hand washing and cleaning materials(soap, paper towel, sanitiser)",
+        yes: false,
+      },
+      {
+        label: "hot running waters available at all sinks and hand wash basin.",
+        yes: false,
+      },
+      {
+        label: "probe thermometer is working and probe wipes are available.",
+        yes: false,
+      },
+      {
+        label: "allergen information is accurate for all items on sale.",
+        yes: false,
+      },
     ],
     fridgeTemps: [
-      { time: "AM", readings: [0, 0, 0] },
-      { time: "PM", readings: [0, 0, 0] },
+      { time: "AM", readings: [0, 0, 0, 0, 0, 0] },
+      { time: "PM", readings: [0, 0, 0, 0, 0, 0] },
     ],
     deliveryDetails: [],
     cookingDetails: [],
     wastageReport: [],
     incidentReport: [],
     closingChecks: [
-      { label: "All food properly stored", yes: false },
-      { label: "Kitchen cleaned and sanitized", yes: false },
-      { label: "Equipment turned off", yes: false },
-      { label: "Waste disposed correctly", yes: false },
+      {
+        label: "all food is covered labelled and put in fridge or freezers.",
+        yes: false,
+      },
+      { label: "food on its use by date been discarded.", yes: false },
+      {
+        label: "dirty cleaning equipment's been cleaned or thrown away.",
+        yes: false,
+      },
+      { label: "waste has been removed and new bag put in.", yes: false },
+      {
+        label:
+          "food preparation area are clean and disinfected(work surface, equipment, utensils)",
+        yes: false,
+      },
+      { label: "all washing up has been finished.", yes: false },
+      { label: "floors are swept and clean.", yes: false },
+      { label: "prove it check have been recorded.", yes: false },
     ],
   });
 
@@ -46,17 +107,27 @@ export default function Checklist() {
     try {
       const response = await API.post("/checklist", checklist);
 
-      if (response.status === 200) {
+      if (response.status === 201) {
         setMessage("✅ Checklist saved successfully!");
       } else {
-        console.log(data);
-        setMessage(`❌ Error: ${data.message}`);
+        setMessage(`❌ Error: ${response.data.message}`);
       }
     } catch (error) {
-      setMessage(error.response.data.message ?? "❌ Failed to save checklist");
+      setMessage(
+        error.response?.data?.message ?? "❌ Failed to save checklist"
+      );
     } finally {
       setLoading(false);
     }
+  };
+
+  const updateDishwasherCheck = (index, field, value) => {
+    setChecklist((prev) => ({
+      ...prev,
+      dishwasherChecks: prev.dishwasherChecks.map((item, i) =>
+        i === index ? { ...item, [field]: value } : item
+      ),
+    }));
   };
 
   const addDelivery = () => {
@@ -265,6 +336,128 @@ export default function Checklist() {
           </div>
         </div>
 
+        {/* Dishwasher Checks - NEW SECTION */}
+        <div className="white-card p-6 mb-6">
+          <h2 className="text-2xl font-serif text-burgundy mb-4">
+            Dishwasher Checks
+          </h2>
+          <div className="space-y-6">
+            {checklist.dishwasherChecks.map((check, index) => (
+              <div
+                key={index}
+                className="border border-gray-200 rounded-lg p-4 bg-gray-50/60"
+              >
+                <div className="flex items-center mb-4">
+                  <span className="text-lg font-semibold text-burgundy bg-cream px-3 py-1 rounded-lg">
+                    {check.period} Check
+                  </span>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Time
+                    </label>
+                    <input
+                      type="time"
+                      value={check.time}
+                      onChange={(e) =>
+                        updateDishwasherCheck(index, "time", e.target.value)
+                      }
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-burgundy focus:border-transparent"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Temperature
+                    </label>
+                    <div className="relative">
+                      <input
+                        type="text"
+                        value={check.temp}
+                        onChange={(e) =>
+                          updateDishwasherCheck(index, "temp", e.target.value)
+                        }
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-burgundy focus:border-transparent"
+                        placeholder="e.g. 65"
+                      />
+                      <span className="absolute right-3 top-2.5 text-gray-500 text-sm">
+                        °C
+                      </span>
+                    </div>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Initials
+                    </label>
+                    <input
+                      type="text"
+                      value={check.initial}
+                      onChange={(e) =>
+                        updateDishwasherCheck(index, "initial", e.target.value)
+                      }
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-burgundy focus:border-transparent"
+                      placeholder="Staff initials"
+                    />
+                  </div>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+                  <label className="flex items-center space-x-3 cursor-pointer group">
+                    <input
+                      type="checkbox"
+                      checked={check.cleansingOk}
+                      onChange={(e) =>
+                        updateDishwasherCheck(
+                          index,
+                          "cleansingOk",
+                          e.target.checked
+                        )
+                      }
+                      className="w-5 h-5 text-burgundy border-gray-300 rounded focus:ring-burgundy"
+                    />
+                    <span className="text-gray-700 group-hover:text-burgundy transition">
+                      Cleansing OK
+                    </span>
+                  </label>
+                  <label className="flex items-center space-x-3 cursor-pointer group">
+                    <input
+                      type="checkbox"
+                      checked={check.chemicalSufficient}
+                      onChange={(e) =>
+                        updateDishwasherCheck(
+                          index,
+                          "chemicalSufficient",
+                          e.target.checked
+                        )
+                      }
+                      className="w-5 h-5 text-burgundy border-gray-300 rounded focus:ring-burgundy"
+                    />
+                    <span className="text-gray-700 group-hover:text-burgundy transition">
+                      Chemical Sufficient
+                    </span>
+                  </label>
+                  <label className="flex items-center space-x-3 cursor-pointer group">
+                    <input
+                      type="checkbox"
+                      checked={check.closingCheck}
+                      onChange={(e) =>
+                        updateDishwasherCheck(
+                          index,
+                          "closingCheck",
+                          e.target.checked
+                        )
+                      }
+                      className="w-5 h-5 text-burgundy border-gray-300 rounded focus:ring-burgundy"
+                    />
+                    <span className="text-gray-700 group-hover:text-burgundy transition">
+                      Closing Check
+                    </span>
+                  </label>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
         {/* Opening Checks */}
         <div className="white-card p-6 mb-6">
           <h2 className="text-2xl font-serif text-burgundy mb-4">
@@ -292,49 +485,54 @@ export default function Checklist() {
 
         {/* Fridge Temperatures */}
         <div className="white-card p-6 mb-6">
-          <h2 className="text-2xl font-serif text-burgundy mb-2">
+          <h2 className="text-2xl font-serif text-burgundy mb-4">
             Fridge Temperature Monitoring
           </h2>
           <p className="text-sm text-gray-600 mb-4">
-            Record temperatures for all fridges twice daily. Safe range: 0-5°C
+            Record temperatures for all fridges twice daily.
           </p>
-          {checklist.fridgeTemps.map((temp, timeIndex) => (
-            <div key={timeIndex} className="mb-6 last:mb-0">
-              <div className="flex items-center mb-3">
-                <span className="text-lg font-semibold text-burgundy bg-cream px-3 py-1 rounded-lg">
-                  {temp.time} Reading
-                </span>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                {temp.readings.map((reading, readingIndex) => (
-                  <div key={readingIndex}>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Fridge {readingIndex + 1} Temperature
-                    </label>
-                    <div className="relative">
-                      <input
-                        type="number"
-                        step="0.1"
-                        value={reading}
-                        onChange={(e) =>
-                          updateFridgeTemp(
-                            timeIndex,
-                            readingIndex,
-                            e.target.value
-                          )
-                        }
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-burgundy focus:border-transparent"
-                        placeholder="e.g. 3.5"
-                      />
-                      <span className="absolute right-3 top-2.5 text-gray-500 text-sm">
-                        °C
-                      </span>
+          <div className="space-y-6">
+            {checklist.fridgeTemps.map((temp, timeIndex) => (
+              <div
+                key={timeIndex}
+                className="border border-gray-200 rounded-lg p-4 bg-gray-50/60"
+              >
+                <div className="flex items-center mb-4">
+                  <span className="text-lg font-semibold text-burgundy bg-cream px-3 py-1 rounded-lg">
+                    {temp.time} Reading
+                  </span>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {temp.readings.map((reading, readingIndex) => (
+                    <div key={readingIndex}>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Fridge {readingIndex + 1}
+                      </label>
+                      <div className="relative">
+                        <input
+                          type="number"
+                          step="0.1"
+                          value={reading}
+                          onChange={(e) =>
+                            updateFridgeTemp(
+                              timeIndex,
+                              readingIndex,
+                              e.target.value
+                            )
+                          }
+                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-burgundy focus:border-transparent"
+                          placeholder="e.g. 3.5"
+                        />
+                        <span className="absolute right-3 top-2.5 text-gray-500 text-sm">
+                          °C
+                        </span>
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
 
         {/* Delivery Details */}

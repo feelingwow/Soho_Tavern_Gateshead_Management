@@ -14,9 +14,22 @@ export const saveChecklist = async (req, res, next) => {
     if (doc) {
       return res.status(400).json({
         message:
-          "Checklist alreay present for this date, kindly delete it if you want to update!",
+          "Checklist already present for this date, kindly delete it if you want to update!",
         checklist: doc,
       });
+    }
+
+    // Validate dishwasherChecks if provided
+    if (payload.dishwasherChecks && Array.isArray(payload.dishwasherChecks)) {
+      const validPeriods = payload.dishwasherChecks.filter(
+        (check) => check.period === "AM" || check.period === "PM"
+      );
+
+      if (validPeriods.length !== payload.dishwasherChecks.length) {
+        return res.status(400).json({
+          message: "Invalid dishwasher check period. Must be 'AM' or 'PM'.",
+        });
+      }
     }
 
     payload.createdBy = req.user.id;
@@ -53,9 +66,9 @@ export const deleteChecklist = async (req, res, next) => {
 // Get all reports for logged-in user (sorted newest first)
 export const getAllChecklists = async (req, res, next) => {
   try {
-    const reports = await Checklist.find().sort({
-      date: -1,
-    });
+    const reports = await Checklist.find()
+      .populate("createdBy", "name email") // Optionally populate creator info
+      .sort({ date: -1 });
     res.json(reports);
   } catch (err) {
     next(err);
@@ -66,7 +79,27 @@ export const getAllChecklists = async (req, res, next) => {
 export const getChecklistByDate = async (req, res, next) => {
   try {
     const { date } = req.params;
-    const report = await Checklist.findOne({ date });
+    const report = await Checklist.findOne({ date }).populate(
+      "createdBy",
+      "name email"
+    ); // Optionally populate creator info
+
+    if (!report) return res.status(404).json({ message: "Not found" });
+    res.json(report);
+  } catch (err) {
+    next(err);
+  }
+};
+
+// Get single by ID (alternative to date-based lookup)
+export const getChecklistById = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const report = await Checklist.findById(id).populate(
+      "createdBy",
+      "name email"
+    );
+
     if (!report) return res.status(404).json({ message: "Not found" });
     res.json(report);
   } catch (err) {
