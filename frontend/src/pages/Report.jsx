@@ -168,6 +168,13 @@ export default function Reports() {
               background: #fff5f5;
               border-left-color: #c53030;
             }
+            .dishwasher-check {
+              background: #fdf6ec;
+              padding: 12px;
+              border-radius: 6px;
+              margin-bottom: 12px;
+              border-left: 4px solid #581c24;
+            }
             .label {
               font-weight: 600;
               color: #581c24;
@@ -175,6 +182,11 @@ export default function Reports() {
             .grid-2 {
               display: grid;
               grid-template-columns: 1fr 1fr;
+              gap: 12px;
+            }
+            .grid-3 {
+              display: grid;
+              grid-template-columns: 1fr 1fr 1fr;
               gap: 12px;
             }
             @media print {
@@ -317,6 +329,49 @@ export default function Reports() {
                     .join("")}
                 </tbody>
               </table>
+            </div>
+          `
+              : ""
+          }
+          
+          ${
+            checklistDetail.dishwasherChecks?.length > 0
+              ? `
+            <div class="section">
+              <h3>Dishwasher Checks</h3>
+              ${checklistDetail.dishwasherChecks
+                .map(
+                  (check) => `
+                <div class="dishwasher-check">
+                  <div style="margin-bottom: 8px;">
+                    <span class="label" style="font-size: 16px;">${
+                      check.period
+                    } Check</span>
+                  </div>
+                  <div class="grid-3" style="font-size: 13px;">
+                    <div><span class="label">Time:</span> ${
+                      check.time || "-"
+                    }</div>
+                    <div><span class="label">Temperature:</span> ${
+                      check.temp ? check.temp + "°C" : "-"
+                    }</div>
+                    <div><span class="label">Initials:</span> ${
+                      check.initial || "-"
+                    }</div>
+                    <div><span class="label">Cleansing OK:</span> ${
+                      check.cleansingOk || "-"
+                    }</div>
+                    <div><span class="label">Chemical Sufficient:</span> ${
+                      check.chemicalSufficient || "-"
+                    }</div>
+                    <div><span class="label">Closing Check:</span> ${
+                      check.closingCheck || "-"
+                    }</div>
+                  </div>
+                </div>
+              `
+                )
+                .join("")}
             </div>
           `
               : ""
@@ -802,6 +857,64 @@ export default function Reports() {
                     </Section>
                   )}
 
+                  {/* Dishwasher Checks */}
+                  {checklistDetail.dishwasherChecks?.length > 0 && (
+                    <Section title="Dishwasher Checks">
+                      <div className="space-y-3">
+                        {checklistDetail.dishwasherChecks.map((check, i) => (
+                          <div
+                            key={i}
+                            className="bg-cream/70 p-4 rounded-lg border border-burgundy/10"
+                          >
+                            <div className="mb-3">
+                              <span className="font-bold text-burgundy text-lg">
+                                {check.period} Check
+                              </span>
+                            </div>
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-sm">
+                              <div>
+                                <span className="font-semibold text-burgundy">
+                                  Time:
+                                </span>{" "}
+                                {check.time || "-"}
+                              </div>
+                              <div>
+                                <span className="font-semibold text-burgundy">
+                                  Temperature:
+                                </span>{" "}
+                                {check.temp ? `${check.temp}°C` : "-"}
+                              </div>
+                              <div>
+                                <span className="font-semibold text-burgundy">
+                                  Initials:
+                                </span>{" "}
+                                {check.initial || "-"}
+                              </div>
+                              <div>
+                                <span className="font-semibold text-burgundy">
+                                  Cleansing OK:
+                                </span>{" "}
+                                {check.cleansingOk || "-"}
+                              </div>
+                              <div>
+                                <span className="font-semibold text-burgundy">
+                                  Chemical Sufficient:
+                                </span>{" "}
+                                {check.chemicalSufficient || "-"}
+                              </div>
+                              <div>
+                                <span className="font-semibold text-burgundy">
+                                  Closing Check:
+                                </span>{" "}
+                                {check.closingCheck || "-"}
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </Section>
+                  )}
+
                   {/* Wastage Report */}
                   {checklistDetail.wastageReport?.length > 0 && (
                     <Section title="Wastage Report">
@@ -902,6 +1015,7 @@ export default function Reports() {
                     !checklistDetail.fridgeTemps?.length &&
                     !checklistDetail.deliveryDetails?.length &&
                     !checklistDetail.cookingDetails?.length &&
+                    !checklistDetail.dishwasherChecks?.length &&
                     !checklistDetail.wastageReport?.length &&
                     !checklistDetail.incidentReport?.length &&
                     !checklistDetail.closingChecks?.length && (

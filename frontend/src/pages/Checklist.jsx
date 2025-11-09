@@ -12,18 +12,18 @@ export default function Checklist() {
         period: "AM",
         time: "",
         temp: "",
-        cleansingOk: false,
-        chemicalSufficient: false,
-        closingCheck: false,
+        cleansingOk: "",
+        chemicalSufficient: "",
+        closingCheck: "",
         initial: "",
       },
       {
         period: "PM",
         time: "",
         temp: "",
-        cleansingOk: false,
-        chemicalSufficient: false,
-        closingCheck: false,
+        cleansingOk: "",
+        chemicalSufficient: "",
+        closingCheck: "",
         initial: "",
       },
     ],
@@ -336,128 +336,6 @@ export default function Checklist() {
           </div>
         </div>
 
-        {/* Dishwasher Checks - NEW SECTION */}
-        <div className="white-card p-6 mb-6">
-          <h2 className="text-2xl font-serif text-burgundy mb-4">
-            Dishwasher Checks
-          </h2>
-          <div className="space-y-6">
-            {checklist.dishwasherChecks.map((check, index) => (
-              <div
-                key={index}
-                className="border border-gray-200 rounded-lg p-4 bg-gray-50/60"
-              >
-                <div className="flex items-center mb-4">
-                  <span className="text-lg font-semibold text-burgundy bg-cream px-3 py-1 rounded-lg">
-                    {check.period} Check
-                  </span>
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Time
-                    </label>
-                    <input
-                      type="time"
-                      value={check.time}
-                      onChange={(e) =>
-                        updateDishwasherCheck(index, "time", e.target.value)
-                      }
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-burgundy focus:border-transparent"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Temperature
-                    </label>
-                    <div className="relative">
-                      <input
-                        type="text"
-                        value={check.temp}
-                        onChange={(e) =>
-                          updateDishwasherCheck(index, "temp", e.target.value)
-                        }
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-burgundy focus:border-transparent"
-                        placeholder="e.g. 65"
-                      />
-                      <span className="absolute right-3 top-2.5 text-gray-500 text-sm">
-                        °C
-                      </span>
-                    </div>
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Initials
-                    </label>
-                    <input
-                      type="text"
-                      value={check.initial}
-                      onChange={(e) =>
-                        updateDishwasherCheck(index, "initial", e.target.value)
-                      }
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-burgundy focus:border-transparent"
-                      placeholder="Staff initials"
-                    />
-                  </div>
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
-                  <label className="flex items-center space-x-3 cursor-pointer group">
-                    <input
-                      type="checkbox"
-                      checked={check.cleansingOk}
-                      onChange={(e) =>
-                        updateDishwasherCheck(
-                          index,
-                          "cleansingOk",
-                          e.target.checked
-                        )
-                      }
-                      className="w-5 h-5 text-burgundy border-gray-300 rounded focus:ring-burgundy"
-                    />
-                    <span className="text-gray-700 group-hover:text-burgundy transition">
-                      Cleansing OK
-                    </span>
-                  </label>
-                  <label className="flex items-center space-x-3 cursor-pointer group">
-                    <input
-                      type="checkbox"
-                      checked={check.chemicalSufficient}
-                      onChange={(e) =>
-                        updateDishwasherCheck(
-                          index,
-                          "chemicalSufficient",
-                          e.target.checked
-                        )
-                      }
-                      className="w-5 h-5 text-burgundy border-gray-300 rounded focus:ring-burgundy"
-                    />
-                    <span className="text-gray-700 group-hover:text-burgundy transition">
-                      Chemical Sufficient
-                    </span>
-                  </label>
-                  <label className="flex items-center space-x-3 cursor-pointer group">
-                    <input
-                      type="checkbox"
-                      checked={check.closingCheck}
-                      onChange={(e) =>
-                        updateDishwasherCheck(
-                          index,
-                          "closingCheck",
-                          e.target.checked
-                        )
-                      }
-                      className="w-5 h-5 text-burgundy border-gray-300 rounded focus:ring-burgundy"
-                    />
-                    <span className="text-gray-700 group-hover:text-burgundy transition">
-                      Closing Check
-                    </span>
-                  </label>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
         {/* Opening Checks */}
         <div className="white-card p-6 mb-6">
           <h2 className="text-2xl font-serif text-burgundy mb-4">
@@ -713,6 +591,131 @@ export default function Checklist() {
                     }
                     className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-burgundy focus:border-transparent"
                   />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Dishwasher Checks - NEW SECTION */}
+        <div className="white-card p-6 mb-6">
+          <h2 className="text-2xl font-serif text-burgundy mb-4">
+            Dishwasher Checks
+          </h2>
+          <div className="space-y-6">
+            {checklist.dishwasherChecks.map((check, index) => (
+              <div
+                key={index}
+                className="border border-gray-200 rounded-lg p-4 bg-gray-50/60"
+              >
+                <div className="flex items-center mb-4">
+                  <span className="text-lg font-semibold text-burgundy bg-cream px-3 py-1 rounded-lg">
+                    {check.period} Check
+                  </span>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Time
+                    </label>
+                    <input
+                      type="time"
+                      value={check.time}
+                      onChange={(e) =>
+                        updateDishwasherCheck(index, "time", e.target.value)
+                      }
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-burgundy focus:border-transparent"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Temperature
+                    </label>
+                    <div className="relative">
+                      <input
+                        type="text"
+                        value={check.temp}
+                        onChange={(e) =>
+                          updateDishwasherCheck(index, "temp", e.target.value)
+                        }
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-burgundy focus:border-transparent"
+                        placeholder="e.g. 65"
+                      />
+                      <span className="absolute right-3 top-2.5 text-gray-500 text-sm">
+                        °C
+                      </span>
+                    </div>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Initials
+                    </label>
+                    <input
+                      type="text"
+                      value={check.initial}
+                      onChange={(e) =>
+                        updateDishwasherCheck(index, "initial", e.target.value)
+                      }
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-burgundy focus:border-transparent"
+                      placeholder="Staff initials"
+                    />
+                  </div>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Cleansing OK
+                    </label>
+                    <input
+                      type="text"
+                      value={check.cleansingOk}
+                      onChange={(e) =>
+                        updateDishwasherCheck(
+                          index,
+                          "cleansingOk",
+                          e.target.value
+                        )
+                      }
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-burgundy focus:border-transparent"
+                      placeholder="Enter status"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Chemical Sufficient
+                    </label>
+                    <input
+                      type="text"
+                      value={check.chemicalSufficient}
+                      onChange={(e) =>
+                        updateDishwasherCheck(
+                          index,
+                          "chemicalSufficient",
+                          e.target.value
+                        )
+                      }
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-burgundy focus:border-transparent"
+                      placeholder="Enter status"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Closing Check
+                    </label>
+                    <input
+                      type="text"
+                      value={check.closingCheck}
+                      onChange={(e) =>
+                        updateDishwasherCheck(
+                          index,
+                          "closingCheck",
+                          e.target.value
+                        )
+                      }
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-burgundy focus:border-transparent"
+                      placeholder="Enter status"
+                    />
+                  </div>
                 </div>
               </div>
             ))}

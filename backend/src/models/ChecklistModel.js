@@ -28,9 +28,9 @@ const dishwasherCheckSchema = new mongoose.Schema({
   period: { type: String, enum: ["AM", "PM"], required: true }, // AM or PM
   time: String,
   temp: String,
-  cleansingOk: { type: Boolean, default: false },
-  chemicalSufficient: { type: Boolean, default: false },
-  closingCheck: { type: Boolean, default: false },
+  cleansingOk: String,
+  chemicalSufficient: String,
+  closingCheck: String,
   initial: String,
 });
 
